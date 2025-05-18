@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="FluentLauncher.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea">
+        <!--  底部按钮区域  -->
+        <Grid Margin="16" VerticalAlignment="Bottom">
+            <Grid.Resources>
+                <ThemeShadow x:Name="SharedShadow" />
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  左侧按钮  -->
+            <DropDownButton
+                Name="UserSelectButton"
+                Width="160"
+                Height="64"
+                VerticalAlignment="Bottom"
+                Background="#FF242425"
+                BorderBrush="Transparent"
+                CornerRadius="8"
+                Shadow="{ThemeResource SharedShadow}"
+                Style="{StaticResource CustomDropDownButtonStyle}">
+                <Grid Margin="-2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="789" />
+                        <TextBlock Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource CaptionTextBlockStyle}">
+                            <Run Text="123" />
+                            <Run Text="456" />
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </DropDownButton>
+
+            <!--  右侧按钮  -->
+
+            <SplitButton
+                x:Name="GameSelectButton"
+                Grid.Column="1"
+                Width="160"
+                Height="64"
+                HorizontalAlignment="Right"
+                Background="#FF006cd4"
+                BorderBrush="Transparent"
+                FlowDirection="LeftToRight"
+                Shadow="{ThemeResource SharedShadow}"
+                Style="{StaticResource CustomSplitButtonStyle}">
+                <TextBlock Text="启动游戏" />
+                <SplitButton.Flyout>
+                    <Flyout Placement="TopEdgeAlignedRight">
+                        <ListView Width="180">
+                            <ListViewItem>1</ListViewItem>
+                            <ListViewItem>1</ListViewItem>
+                            <ListViewItem>1</ListViewItem>
+                            <ListViewItem>1</ListViewItem>
+                        </ListView>
+                    </Flyout>
+                </SplitButton.Flyout>
+            </SplitButton>
+        </Grid>
+    </Grid>
+</Page>
