@@ -1,12 +1,14 @@
-﻿<Window
-    x:Class="FluentLauncher.MainWindow"
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FluentLauncher.Views.ManageDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FluentLauncher.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:FluentLauncher"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
-</Window>
+
+    <Grid>
+
+    </Grid>
+</Page>

@@ -1,40 +1,87 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>FluentLauncher</RootNamespace>
-    <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;arm64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	<UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
-  </PropertyGroup>
+﻿    <Project Sdk="Microsoft.NET.Sdk">
+        <PropertyGroup>
+            <OutputType>WinExe</OutputType>
+            <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+            <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+            <RootNamespace>FluentLauncher</RootNamespace>
+            <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
+            <ApplicationManifest>app.manifest</ApplicationManifest>
+            <Platforms>x86;x64;arm64</Platforms>
+            <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+            <ImplicitUsings>enable</ImplicitUsings>
+            <Nullable>enable</Nullable>
+            <UseWinUI>true</UseWinUI>
+            <EnableMsixTooling>True</EnableMsixTooling>
+            <WindowsPackageType>None</WindowsPackageType>
+            <!-- 禁用 MSIX 打包 -->
+            <PublishProtocol>FileSystem</PublishProtocol>
+            <!-- 发布到文件系统 -->
+            <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
+            <SelfContained>False</SelfContained>
+            <Configuration>Release</Configuration>
+            <PublishAot>False</PublishAot>
+        </PropertyGroup>
+        
+      <ItemGroup>
+        <None Remove="Views\ManageDetailPage.xaml" />
+        <None Remove="Views\ManagePage.xaml" />
+      </ItemGroup>
 
-  <ItemGroup>
-    <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
+      <ItemGroup>
+        <Manifest Include="$(ApplicationManifest)" />
+      </ItemGroup>
+        <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+      </ItemGroup>
 
-  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
-  </ItemGroup>
+      <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+      </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
-    <PackageReference Include="WinUIEx" Version="2.5.1" />
-  </ItemGroup>
+      <ItemGroup>
+        <ProjectReference Include="..\FluentLauncher.Core\FluentLauncher.Core.csproj" />
+      </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FluentLauncher.Core\FluentLauncher.Core.csproj" />
-  </ItemGroup>
+      <ItemGroup>
+        <Page Update="Views\ManageDetailPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
+      </ItemGroup>
+
+      <ItemGroup>
+        <Page Update="Views\ManagePage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
+      </ItemGroup>
   
-  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-  </PropertyGroup>
-</Project>
+      <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+  
+      <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+      </PropertyGroup>
+    </Project>

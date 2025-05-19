@@ -1,10 +1,13 @@
-﻿{
+{
     "profiles": {
-        "FluentLauncher (Package)": {
-            "commandName": "MsixPackage"
-        },
         "FluentLauncher (Unpackaged)": {
             "commandName": "Project"
+        },
+        "MsixPackage": {
+            "commandName": "MsixPackage",
+            "nativeDebugging": false,
+            "doNotLaunchApp": false,
+            "remoteDebugEnabled": false
         }
     }
 }

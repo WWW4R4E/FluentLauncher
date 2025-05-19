@@ -4,7 +4,6 @@ using System.Web;
 using Microsoft.Windows.AppNotifications;
 
 using FluentLauncher.Contracts.Services;
-using FluentLauncher.ViewModels;
 
 namespace FluentLauncher.Notifications;
 
@@ -44,9 +43,9 @@ public class AppNotificationService : IAppNotificationService
 
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
+            //App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
 
-            App.MainWindow.BringToFront();
+            //App.MainWindow.BringToFront();
         });
     }
 

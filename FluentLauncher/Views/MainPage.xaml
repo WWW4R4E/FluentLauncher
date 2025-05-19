@@ -7,8 +7,7 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <!--  底部按钮区域  -->
-        <Grid Margin="16" VerticalAlignment="Bottom">
+        <Grid VerticalAlignment="Bottom">
             <Grid.Resources>
                 <ThemeShadow x:Name="SharedShadow" />
             </Grid.Resources>

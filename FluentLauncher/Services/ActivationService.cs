@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-using FluentLauncher.Activation;
+﻿using FluentLauncher.Activation;
 using FluentLauncher.Contracts.Services;
 using FluentLauncher.Views;
 
@@ -33,7 +30,7 @@ public class ActivationService : IActivationService
 
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
-
+      
         // Activate the MainWindow.
         App.MainWindow.Activate();
 
