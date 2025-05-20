@@ -1,6 +1,6 @@
-*/.vs
-.vs
-*/.idea
+.vs/
+.idea
+笔记/
 */vscode
 */bin
 */obj

@@ -1,0 +1,25 @@
+{
+    "launcher": {
+        "javaPath": [
+            "C:\\SDK\\jdk21-Microsoft\\bin\\java.exe"
+        ],
+        "memory": 1024,
+        "fullscreen": true
+    },
+    "user": {
+        "uuid": "518fd224-a5cc-4a56-bbe1-0d5ad20bdf9f",
+        "name": "Steve",
+        "accessToken": null
+    },
+    "game": [
+        {
+            "gameName": "Mincraft 1.21.1",
+            "gameVersion": "1.21.1",
+            "gamePath": "C:\\Users\\123\\AppData\\Roaming\\.minecraft\\versions\\1.21.1\\1.21.1.jar",
+            "javaPath": "C:\\SDK\\jdk21-Microsoft\\bin\\java.exe",
+            "memory": 1024,
+            "fullscreen": true
+        }
+    ],
+    "MinecraftPath": "C:\\Users\\123\\AppData\\Roaming\\.minecraft"
+}
