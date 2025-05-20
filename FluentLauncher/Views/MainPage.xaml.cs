@@ -5,10 +5,7 @@ namespace FluentLauncher.Views;
 
 public sealed partial class MainPage : Page
 {
-    public MainViewModel ViewModel
-    {
-        get;
-    }
+    public MainViewModel ViewModel{get;}
 
     public MainPage()
     {

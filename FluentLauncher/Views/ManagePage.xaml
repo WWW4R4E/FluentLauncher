@@ -7,14 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FluentLauncher.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:models="using:FluentLauncher.Models"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="local:VersionListDate">
-            <controls:SettingsExpander Header="Settings Expander with ItemsSource">
+        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="models:GameData">
+            <controls:SettingsExpander Header="{x:Bind GameName}">
                 <controls:SettingsExpander.HeaderIcon>
-                    <FontIcon Glyph="&#xEA37;" />
+                    <ImageIcon Source="/Assets/LockScreenLogo.png" />
                 </controls:SettingsExpander.HeaderIcon>
                 <controls:SettingsExpander.ItemsFooter>
                     <StackPanel
@@ -22,27 +22,48 @@
                         Background="{StaticResource CardBackgroundFillColorSecondaryBrush}"
                         Spacing="4">
                         <controls:SettingsCard
-                            Description="{x:Bind GameName}"
-                            Header="{x:Bind GameVersion}"
-                            IsClickEnabled="True" />
+                            Click="SettingsCard_Click"
+                            Header="模组管理"
+                            IsClickEnabled="True">
+                            <controls:SettingsCard.HeaderIcon>
+                                <FontIcon Glyph="&#xE8F1;" />
+                            </controls:SettingsCard.HeaderIcon>
+                        </controls:SettingsCard>
                         <controls:SettingsCard
-                            Header="Hiding the ActionIcon"
-                            IsActionIconVisible="False"
-                            IsClickEnabled="True" />
+                            Click="SettingsCard_Click"
+                            Header="存档管理"
+                            IsClickEnabled="True">
+                            <controls:SettingsCard.HeaderIcon>
+                                <FontIcon Glyph="&#xE74E;" />
+                            </controls:SettingsCard.HeaderIcon>
+                        </controls:SettingsCard>
+                        <controls:SettingsCard
+                            Click="SettingsCard_Click"
+                            Header="启动参数"
+                            IsClickEnabled="True">
+                            <controls:SettingsCard.HeaderIcon>
+                                <FontIcon Glyph="&#xE713;" />
+                            </controls:SettingsCard.HeaderIcon>
+                        </controls:SettingsCard>
                     </StackPanel>
                 </controls:SettingsExpander.ItemsFooter>
             </controls:SettingsExpander>
         </DataTemplate>
         <Style TargetType="ListViewItem">
             <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
-    <StackPanel
-        VerticalAlignment="Top"
-        Orientation="Vertical"
-        Spacing="16">
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <StackPanel
             Padding="0,16,0,0"
             Orientation="Horizontal"
@@ -72,10 +93,12 @@
             </Button>
         </StackPanel>
         <ListView
+            Grid.Row="1"
+            Margin="0,16"
             BorderBrush="Transparent"
             ItemTemplate="{StaticResource ContactListViewTemplate}"
-            ItemsSource="{x:Bind Versions}"
+            ItemsSource="{x:Bind ViewModel.Versions}"
             SelectionMode="None" />
-    </StackPanel>
+    </Grid>
 
 </Page>

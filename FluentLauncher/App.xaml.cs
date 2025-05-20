@@ -1,26 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.UI.Xaml;
 using FluentLauncher.Activation;
 using FluentLauncher.Contracts.Services;
-using FluentLauncher.Helpers;
 using FluentLauncher.Notifications;
 using FluentLauncher.Services;
 using FluentLauncher.ViewModels;
 using FluentLauncher.Views;
-using FluentLauncher.Core.Contracts.Services;
-using FluentLauncher.Core.Services;
+// using FluentLauncher.Core.Contracts.Services;
+// using FluentLauncher.Core.Services;
 
 namespace FluentLauncher;
 
-// To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
-    // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
-    // https://docs.microsoft.com/dotnet/core/extensions/generic-host
-    // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
-    // https://docs.microsoft.com/dotnet/core/extensions/configuration
-    // https://docs.microsoft.com/dotnet/core/extensions/logging
     public IHost Host
     {
         get;
@@ -65,7 +57,7 @@ public partial class App : Application
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
-            services.AddSingleton<IFileService, FileService>();
+            // services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
             services.AddTransient<MainViewModel>();
@@ -74,6 +66,8 @@ public partial class App : Application
             services.AddTransient<ShellViewModel>();
             services.AddTransient<ManagePage>();
             services.AddTransient<ManageViewModel>();
+            services.AddTransient<ManageDetailPage>();
+            services.AddTransient<ManageDetailViewModel>();
 
             // Configuration
         }).

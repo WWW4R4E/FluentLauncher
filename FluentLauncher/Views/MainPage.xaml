@@ -56,7 +56,7 @@
                 FlowDirection="LeftToRight"
                 Shadow="{ThemeResource SharedShadow}"
                 Style="{StaticResource CustomSplitButtonStyle}">
-                <TextBlock Text="启动游戏" />
+                <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="启动游戏" />
                 <SplitButton.Flyout>
                     <Flyout Placement="TopEdgeAlignedRight">
                         <ListView Width="180">

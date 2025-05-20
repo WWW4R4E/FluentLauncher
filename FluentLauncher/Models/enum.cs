@@ -1,5 +1,9 @@
 ﻿namespace FluentLauncher.Models;
 
-public class enum {
-
+public enum ModLoaders
+{
+    Forge,
+    Fabric,
+    Quilt,
+    NeoForge
 }
