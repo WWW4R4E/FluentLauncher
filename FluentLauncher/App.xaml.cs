@@ -68,6 +68,8 @@ public partial class App : Application
             services.AddTransient<ManageViewModel>();
             services.AddTransient<ManageDetailPage>();
             services.AddTransient<ManageDetailViewModel>();
+            services.AddTransient<InitialSetupViewModel>();
+            services.AddTransient<InitialSetupPage>();
 
             // Configuration
         }).

@@ -1,6 +1,7 @@
 ﻿using FluentLauncher.Activation;
 using FluentLauncher.Contracts.Services;
 using FluentLauncher.Views;
+using System.IO;
 
 namespace FluentLauncher.Services;
 
@@ -18,23 +19,28 @@ public class ActivationService : IActivationService
 
     public async Task ActivateAsync(object activationArgs)
     {
-        // Execute tasks before activation.
         await InitializeAsync();
 
-        // Set the MainWindow Content.
         if (App.MainWindow.Content == null)
         {
-            _shell = App.GetService<ShellPage>();
+            // 检查配置文件是否存在，判断是否首次安装
+            var configFilePath = Path.Combine(AppContext.BaseDirectory, "launcher-config.json");
+            if (!File.Exists(configFilePath))
+            {
+                _shell = App.GetService<InitialSetupPage>();
+            }
+            else
+            {
+                _shell = App.GetService<ShellPage>();
+            }
             App.MainWindow.Content = _shell ?? new Frame();
+            App.MainWindow.ExtendsContentIntoTitleBar = true;
         }
 
-        // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
       
-        // Activate the MainWindow.
         App.MainWindow.Activate();
 
-        // Execute tasks after activation.
         await StartupAsync();
     }
 

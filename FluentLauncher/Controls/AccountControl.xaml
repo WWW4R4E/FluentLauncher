@@ -1,0 +1,60 @@
+<UserControl
+    x:Class="FluentLauncher.Controls.AccountControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FluentLauncher.Controls">
+
+    <Grid HorizontalAlignment="Center" MaxWidth="325" Margin="20" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+                x:Uid="OOBE_AccountPage_T"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="Accounts"
+                FontSize="24"
+                FontWeight="SemiBold"
+                HorizontalAlignment="Center" />
+        <TextBlock
+                Grid.Row="1"
+                FontSize="14"
+                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                TextWrapping="WrapWholeWords"
+                TextAlignment="Center"
+                Margin="0,10,0,0">
+                <Run x:Uid="OOBE_AccountPage_D1" Text="You need at least one account to start the game" />
+                <LineBreak />
+                <Run x:Uid="OOBE_AccountPage_D2" Text="Access to online servers is only possible with a Microsoft account" />
+                <LineBreak />
+                <Run x:Uid="OOBE_AccountPage_D3" Text="Offline accounts will not be verified by the server" />
+        </TextBlock>
+        <StackPanel
+                Grid.Row="3"
+                Orientation="Horizontal"
+                Spacing="10"
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0">
+            <Button
+                    x:Name="loginButton"
+                    CommandParameter="{x:Bind loginButton}"
+                    Height="36"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Padding="10,5">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontSize="16" Glyph="🔒" />
+                    <TextBlock x:Uid="Buttons_SignIn" Text="Sign in" />
+                </StackPanel>
+            </Button>
+            <HyperlinkButton
+                    x:Uid="OOBE_AccountPage_L"
+                    Content="Minecraft Official Website"
+                    NavigateUri="https://www.minecraft.net/en-us"
+                    FontSize="14" />
+        </StackPanel>
+    </Grid>
+
+
+</UserControl>
