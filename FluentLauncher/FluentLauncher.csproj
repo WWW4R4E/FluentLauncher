@@ -22,6 +22,8 @@
             <PublishTrimmed>true</PublishTrimmed>
         </PropertyGroup>
       <ItemGroup>
+        <None Remove="Controls\FinishSetupControl.xaml" />
+        <None Remove="Views\DownloadPage.xaml" />
         <None Remove="Views\ManageDetailPage.xaml" />
         <None Remove="Views\ManagePage.xaml" />
       </ItemGroup>
@@ -38,8 +40,20 @@
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250402001" />
 
+      </ItemGroup>
+
+      <ItemGroup>
+        <Page Update="Views\DownloadPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
+      </ItemGroup>
+
+      <ItemGroup>
+        <Page Update="Controls\FinishSetupControl.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
       </ItemGroup>
 
       <ItemGroup>

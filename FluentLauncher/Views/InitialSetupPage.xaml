@@ -6,73 +6,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <CubicEase x:Key="EaseOutFunction" EasingMode="EaseOut" />
+        <CubicEase x:Key="EaseInFunction" EasingMode="EaseIn" />
+    </Page.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="38" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!--  Navigation tabs, centered  -->
+
         <StackPanel
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             Spacing="12">
-            <!--  简化后的按钮结构  -->
             <Button
                 x:Name="TabLanguage"
-                Width="180"
-                Background="Transparent"
-                BorderBrush="Transparent"
                 Click="OnTabClick"
-                Tag="0">
-                <TextBlock
-                    x:Name="LangText"
-                    FontSize="24"
-                    Foreground="#999999"
-                    Text="语言选择" />
-            </Button>
-            <Button
-                x:Name="TabMinecraft"
-                Width="180"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Click="OnTabClick"
-                Tag="1">
-                <TextBlock
-                    x:Name="MinecraftText"
-                    FontSize="24"
-                    Foreground="#999999"
-                    Text="Minecraft目录" />
-            </Button>
-            <Button
-                x:Name="TabAccount"
-                Width="180"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Click="OnTabClick"
-                Tag="2">
-                <TextBlock
-                    x:Name="AccountText"
-                    FontSize="24"
-                    Foreground="#999999"
-                    Text="用户登录" />
+                Style="{StaticResource TabButtonStyle}"
+                Tag="Language">
+                <TextBlock FontSize="24" Text="语言选择" />
             </Button>
             <Button
                 x:Name="TabJDK"
-                Width="180"
-                Background="Transparent"
-                BorderBrush="Transparent"
                 Click="OnTabClick"
-                Tag="3">
-                <TextBlock
-                    x:Name="JDKText"
-                    FontSize="24"
-                    Foreground="#999999"
-                    Text="JDK路径" />
+                Style="{StaticResource TabButtonStyle}"
+                Tag="JDK">
+                <TextBlock FontSize="24" Text="JDK路径" />
+            </Button>
+            <Button
+                x:Name="TabMinecraft"
+                Click="OnTabClick"
+                Style="{StaticResource TabButtonStyle}"
+                Tag="Minecraft">
+                <TextBlock FontSize="24" Text="Minecraft目录" />
+            </Button>
+            <Button
+                x:Name="TabAccount"
+                Click="OnTabClick"
+                Style="{StaticResource TabButtonStyle}"
+                Tag="Account">
+                <TextBlock FontSize="24" Text="用户登录" />
+            </Button>
+            <Button
+                x:Name="TabFinish"
+                Click="OnTabClick"
+                Style="{StaticResource TabButtonStyle}"
+                Tag="Finish">
+                <TextBlock FontSize="24" Text="完成设置" />
             </Button>
         </StackPanel>
-        <!--  Content area  -->
+
         <ContentControl
             x:Name="ContentHost"
             Grid.Row="1"
@@ -80,8 +65,13 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch" />
-        <!--  Navigation buttons  -->
+            VerticalContentAlignment="Stretch"
+            Background="LightGray">
+            <ContentControl.RenderTransform>
+                <TranslateTransform />
+            </ContentControl.RenderTransform>
+        </ContentControl>
+
         <Grid Grid.Row="2" Height="32">
             <Button
                 x:Name="PreviousButton"

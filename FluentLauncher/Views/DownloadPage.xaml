@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="FluentLauncher.Views.DownloadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FluentLauncher.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:FluentLauncher.Models"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="DownloadListview" x:DataType="models:DownloadData">
+            <controls:SettingsCard
+                Description="{x:Bind gamedescribe}"
+                Header="{x:Bind gameVersion}"
+                IsEnabled="True">
+                <controls:SettingsCard.Resources>
+                    <x:Double x:Key="SettingsCardWrapThreshold">400</x:Double>
+                </controls:SettingsCard.Resources>
+                <controls:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="/Assets/Square150x150Logo.png" />
+                </controls:SettingsCard.HeaderIcon>
+                <Button Content="下载" Style="{StaticResource AccentButtonStyle}" />
+            </controls:SettingsCard>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid Padding="0,16,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Spacing="16">
+            <ComboBox
+                DisplayMemberPath="Item1"
+                SelectedIndex="0"
+                SelectedValuePath="Item2">
+                <ComboBoxItem>正式版</ComboBoxItem>
+                <ComboBoxItem>"快照版"</ComboBoxItem>
+                <ComboBoxItem>"远古版β"</ComboBoxItem>
+                <ComboBoxItem>"远古版α"</ComboBoxItem>
+            </ComboBox>
+            <AutoSuggestBox PlaceholderText="Type a control name" QueryIcon="Find" />
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="0,16">
+            <ListView
+                ItemTemplate="{StaticResource DownloadListview}"
+                ItemsSource="{x:Bind ViewModel.DownloadList}"
+                SelectionMode="None" />
+        </Grid>
+    </Grid>
+</Page>

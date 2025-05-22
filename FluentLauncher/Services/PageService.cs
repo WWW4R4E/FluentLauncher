@@ -17,6 +17,8 @@ public class PageService : IPageService
         Configure<MainViewModel, MainPage>();
         Configure<ManageViewModel, ManagePage>();
         Configure<ManageDetailViewModel, ManageDetailPage>();
+        //Configure<SettingsViewModel, SettingsPage>();
+        Configure<DownloadViewModel, DownloadPage>();
     }
 
     public Type GetPageType(string key)

@@ -4,6 +4,16 @@
     <_LastSelectedProfileId>C:\Users\123\Desktop\启动器\FluentLauncher\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Page Update="Views\DownloadPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\FinishSetupControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\ManageDetailPage.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,51 @@
+<UserControl
+    x:Class="FluentLauncher.Controls.FinishSetupControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FluentLauncher.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid MaxWidth="400">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--  标题  -->
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="28"
+                FontWeight="SemiBold"
+                Foreground="{ThemeResource SystemAccentColor}"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="配置完成" />
+            <!--  渐变分割线  -->
+            <Rectangle
+                Grid.Row="1"
+                Width="280"
+                Style="{StaticResource GradientSeparatorStyle}" />
+            <!--  内容和按钮  -->
+            <Grid Grid.Row="2" Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="#666666"
+                    Text="Fluent Launcher 已成功配置。您现在可以开始使用应用程序。"
+                    TextWrapping="Wrap" />
+                <Button
+                    Grid.Column="1"
+                    Margin="16,0,0,0"
+                    HorizontalAlignment="Right"
+                    Click="OnFinishButtonClick"
+                    Content="完成"
+                    Style="{StaticResource ModernButtonStyle}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

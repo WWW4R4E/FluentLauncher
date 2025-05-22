@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <Grid VerticalAlignment="Bottom">
+        <Grid Margin="0,18" VerticalAlignment="Bottom">
             <Grid.Resources>
                 <ThemeShadow x:Name="SharedShadow" />
             </Grid.Resources>

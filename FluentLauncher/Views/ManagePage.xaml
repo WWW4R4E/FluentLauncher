@@ -49,12 +49,6 @@
                 </controls:SettingsExpander.ItemsFooter>
             </controls:SettingsExpander>
         </DataTemplate>
-        <Style TargetType="ListViewItem">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
     </Page.Resources>
 
 

@@ -26,7 +26,6 @@ public sealed partial class ShellPage : Page
 
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
-     
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
@@ -38,6 +37,15 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+        
+        // 仅在首次加载时执行导航
+        if (NavigationFrame.Content == null)
+        {
+            ViewModel.NavigationService.NavigateTo(typeof(MainViewModel).FullName);
+        }
+        
+        // 确保只执行一次
+        Loaded -= OnLoaded;
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -54,7 +62,7 @@ public sealed partial class ShellPage : Page
             Right = AppTitleBar.Margin.Right,
             Bottom = AppTitleBar.Margin.Bottom
         };
-        
+
     }
 
     private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)

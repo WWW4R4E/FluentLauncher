@@ -1,11 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FluentLauncher.Activation;
 using FluentLauncher.Contracts.Services;
 using FluentLauncher.Notifications;
 using FluentLauncher.Services;
 using FluentLauncher.ViewModels;
 using FluentLauncher.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 // using FluentLauncher.Core.Contracts.Services;
 // using FluentLauncher.Core.Services;
 
@@ -70,7 +72,8 @@ public partial class App : Application
             services.AddTransient<ManageDetailViewModel>();
             services.AddTransient<InitialSetupViewModel>();
             services.AddTransient<InitialSetupPage>();
-
+            services.AddTransient<DownloadPage> ();
+            services.AddTransient<DownloadViewModel> ();
             // Configuration
         }).
         Build();
@@ -82,8 +85,15 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
-        // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+        // 记录异常信息
+        Debug.WriteLine($"Unhandled Exception: {e.Exception.Message}");
+        Debug.WriteLine($"Exception Stack Trace: {e.Exception.StackTrace}");
+
+        // 显示错误消息（可选）
+        // MessageBox.Show($"发生错误: {e.Exception.Message}");
+
+        // 防止应用直接退出（根据需要）
+        e.Handled = true;
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)

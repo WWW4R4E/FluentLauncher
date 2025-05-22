@@ -3,50 +3,68 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FluentLauncher.Controls">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="32" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Spacing="16">
         <Grid>
-            <StackPanel
-                Grid.Column="0"
-                Margin="16,0,0,0"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        FontSize="36"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        Text="Fluent Launcher" />
+                </StackPanel>
+            </Grid>
+            <Rectangle
+                Grid.Column="1"
+                Width="1"
+                Height="64"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Fill="Black" />
+            <Grid
+                Grid.Column="2"
+                MaxWidth="300"
                 VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
                 <TextBlock
-                    FontSize="36"
-                    FontWeight="SemiBold"
-                    Text="Fluent Launcher" />
-            </StackPanel>
+                    x:Uid="OOBE_LanguagePage_T"
+                    Foreground="{ThemeResource SystemAccentColor}"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="Language" />
+                <TextBlock
+                    x:Uid="OOBE_LanguagePage_D"
+                    Grid.Row="1"
+                    FontSize="16"
+                    Foreground="#666666"
+                    Text="Please choose your language before we start setting up Fluent Launcher."
+                    TextWrapping="WrapWholeWords" />
+            </Grid>
         </Grid>
-        <Rectangle
-            Grid.Column="1"
-            Width="4"
-            Height="64"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Fill="Black" />
-        <Grid
-            Grid.Column="2"
-            MaxWidth="300"
-            VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <TextBlock
-                x:Uid="OOBE_LanguagePage_T"
-                Style="{ThemeResource TitleTextBlockStyle}"
-                Text="Language" />
-            <TextBlock
-                x:Uid="OOBE_LanguagePage_D"
-                Grid.Row="1"
-                FontSize="16"
-                Text="Please choose your language before we start setting up Fluent Launcher."
-                TextWrapping="WrapWholeWords" />
-        </Grid>
-    </Grid>
+        <ComboBox
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Width="200"
+            HorizontalAlignment="Center">
+            <ComboBoxItem Content="English" Tag="en-US" />
+            <ComboBoxItem Content="简体中文" Tag="zh-CN" />
+            <ComboBoxItem Content="繁體中文" Tag="zh-TW" />
+            <!--  添加更多语言选项  -->
+        </ComboBox>
+    </StackPanel>
 </UserControl>

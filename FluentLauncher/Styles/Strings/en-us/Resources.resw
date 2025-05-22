@@ -143,4 +143,7 @@
   <data name="Shell_Manage.Content" xml:space="preserve">
     <value>Manage</value>
   </data>
+  <data name="Shell_DownLoad.Content" xml:space="preserve">
+    <value>DownLoad</value>
+  </data>
 </root>
