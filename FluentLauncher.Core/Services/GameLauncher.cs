@@ -1,4 +1,4 @@
-namespace Launcher.Core.Services
+namespace FluentLauncher.Core.Services
 {
     public class GameLauncher
     {

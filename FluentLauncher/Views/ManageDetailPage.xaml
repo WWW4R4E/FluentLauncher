@@ -5,12 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:FluentLauncher.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentLauncher.Models"
+    xmlns:models="using:FluentLauncher.Core.Models"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="models:SavedGame">
+
+        <!--  存档  -->
+        <DataTemplate x:Key="GameSaveListViewTemplate" x:DataType="models:GameSave">
             <StackPanel
                 Margin="0,4"
                 Padding="0,8"
@@ -25,12 +27,61 @@
                     VerticalAlignment="Center"
                     Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
                 <StackPanel Spacing="2">
-                    <TextBlock Text="{x:Bind FiledName}" />
-                    <TextBlock Text="{x:Bind FildePathName}" />
-                    <TextBlock Text="{x:Bind FiledDescription}" />
+                    <TextBlock Text="{x:Bind SaveName}" />
+                    <TextBlock Text="{x:Bind SavePath}" />
+                    <TextBlock Text="{x:Bind SaveTime}" />
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
+
+        <!--  模组  -->
+        <DataTemplate x:Key="ModListViewTemplate" x:DataType="models:Mod">
+            <StackPanel
+                Margin="0,4"
+                Padding="0,8"
+                VerticalAlignment="Stretch"
+                Background="{StaticResource CardBackgroundFillColorDefault}"
+                CornerRadius="{StaticResource ProgressBarCornerRadius}"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="48"
+                    Height="48"
+                    Margin="16,0"
+                    VerticalAlignment="Center"
+                    Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                <StackPanel Spacing="2">
+                    <TextBlock Text="{x:Bind ModName}" />
+                    <TextBlock Text="{x:Bind ModPath}" />
+                    <TextBlock Text="{x:Bind ModVersion}" />
+                    <TextBlock Text="{x:Bind ModType}" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <!--  参数  -->
+        <DataTemplate x:Key="GameArgumentListViewTemplate" x:DataType="models:GameArgument">
+            <StackPanel
+                Margin="0,4"
+                Padding="0,8"
+                VerticalAlignment="Stretch"
+                Background="{StaticResource CardBackgroundFillColorDefault}"
+                CornerRadius="{StaticResource ProgressBarCornerRadius}"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="48"
+                    Height="48"
+                    Margin="16,0"
+                    VerticalAlignment="Center"
+                    Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                <StackPanel Spacing="2">
+                    <TextBlock Text="{x:Bind FullScrean}" />
+                    <TextBlock Text="{x:Bind javaPath}" />
+                    <TextBlock Text="{x:Bind memoryArgs}" />
+                    <TextBlock Text="{x:Bind GameSize}"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
         <Style TargetType="ListViewItem">
             <Setter Property="Padding" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -44,7 +95,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:SettingsCard Header="存档文件夹" IsClickEnabled="True">
+        <controls:SettingsCard Header="{x:Bind ViewModel.SelectedCardType}" IsClickEnabled="True">
             <controls:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE8B7;" />
             </controls:SettingsCard.HeaderIcon>
@@ -52,11 +103,11 @@
         <TextBlock
             Grid.Row="1"
             Style="{StaticResource ArchiveTextBlockStyle}"
-            Text="存档" />
+            Text="{x:Bind ViewModel.SelectedCardType}" />
         <ListView
             Grid.Row="2"
-            ItemTemplate="{StaticResource ContactListViewTemplate}"
-            ItemsSource="{x:Bind ViewModel.SavedGames}"
+            ItemTemplate="{x:Bind ViewModel.SelectedTemplate}"
+            ItemsSource="{x:Bind ViewModel.SelectedItems}"
             SelectionMode="None" />
     </Grid>
 </Page>

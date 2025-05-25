@@ -45,35 +45,34 @@ public partial class App : Application
         ConfigureServices((context, services) =>
         {
             // Default Activation Handler
-            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+            services.AddSingleton<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
             // Other Activation Handlers
-            services.AddTransient<IActivationHandler, AppNotificationActivationHandler>();
+            services.AddSingleton<IActivationHandler, AppNotificationActivationHandler>();
 
             // Services
             services.AddSingleton<IAppNotificationService, AppNotificationService>();
-            services.AddTransient<INavigationViewService, NavigationViewService>();
+            services.AddSingleton<INavigationViewService, NavigationViewService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
-            // services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
-            services.AddTransient<ShellPage>();
-            services.AddTransient<ShellViewModel>();
-            services.AddTransient<ManagePage>();
-            services.AddTransient<ManageViewModel>();
-            services.AddTransient<ManageDetailPage>();
-            services.AddTransient<ManageDetailViewModel>();
-            services.AddTransient<InitialSetupViewModel>();
-            services.AddTransient<InitialSetupPage>();
-            services.AddTransient<DownloadPage> ();
-            services.AddTransient<DownloadViewModel> ();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainPage>();
+            services.AddSingleton<ShellPage>();
+            services.AddSingleton<ShellViewModel>();
+            services.AddSingleton<ManagePage>();
+            services.AddSingleton<ManageViewModel>();
+            services.AddSingleton<ManageDetailPage>();
+            services.AddSingleton<ManageDetailViewModel>();
+            services.AddSingleton<InitialSetupViewModel>();
+            services.AddSingleton<InitialSetupPage>();
+            services.AddSingleton<DownloadPage>();
+            services.AddSingleton<DownloadViewModel>();
             // Configuration
         }).
         Build();

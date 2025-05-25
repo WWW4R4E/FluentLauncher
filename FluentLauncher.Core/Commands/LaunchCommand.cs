@@ -1,110 +1,99 @@
-using System.CommandLine;
 using System.Diagnostics;
-using Launcher.Core.Models;
-using Launcher.Core.Utils;
+using System.Text;
+using FluentLauncher.Core.Models;
+using FluentLauncher.Core.Utils;
 
-namespace Launcher.Core.Commands
+namespace FluentLauncher.Core.Commands
 {
-    public class LaunchCommand : Command
+    public class LaunchCommand
     {
-        GameConfig? selectedGame;
-        UserProfile userProfile;
-        // LauncherConfig launcherConfig;
 
-        private readonly Option<string> gameOption =
-            new(new[] { "--game", "-g" },
-                description: "Name of the game to launch (like: Minecraft 1.20.2)");
-
-        public LaunchCommand() : base("launch", "Launch the Minecraft game")
+        public static async Task<Result<bool>> LaunchGameAsync(GameConfig game)
         {
-            // 添加可选参数
-            AddOption(gameOption);
 
-            // 设置命令处理逻辑
-            this.SetHandler(async (context) =>
+            var json = await JsonConfigUtils.LoadFromFile();
+            GameConfig? selectedGame = game;
+            UserProfile userProfile = json.UserConfig;
+
+        
+            if (!File.Exists(selectedGame.GamePath))
             {
-                string gameName = context.ParseResult.GetValueForOption(gameOption);
+                return Result<bool>.Failure($"未找到游戏文件：{selectedGame.GamePath}");
+            }
 
-                var json = await JsonConfigUtils.LoadFromFile();
-                var gameConfigs = json.GameConfig;
-                // launcherConfig = json.LauncherConfig;
-                userProfile = json.UserConfig;
-                if (gameConfigs == null || gameConfigs.Count == 0)
+            string username = userProfile.Name;
+            string gameVersion = selectedGame.GameVersion;
+            string memoryArgs = selectedGame.GameArguments.memoryArgs;
+            string? accessToken = userProfile.AccessToken ?? string.Empty;
+            string javaPath = selectedGame.GameArguments.javaPath ?? "java";
+
+            string uuid = userProfile.uuid;
+            string command = MinecraftLauncherUtils.BuildLaunchCommand(gameVersion, accessToken, uuid,
+                username, memoryArgs);
+
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = javaPath,
+                Arguments = command,
+                UseShellExecute = false,          
+                RedirectStandardOutput = true,   
+                RedirectStandardError = true,  
+                CreateNoWindow = true,           
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            try
+            {
+                using (var process = new Process())
                 {
-                    Console.WriteLine("No game configuration found. Please download a game.");
-                    return;
-                }
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
 
+                    // 读取输出流（可选：绑定事件或直接读取）
+                    var output = new StringBuilder();
+                    var error = new StringBuilder();
 
-                if (string.IsNullOrEmpty(gameName))
-                {
-                    Console.WriteLine("Available games:");
-                    foreach (var game in gameConfigs)
+                    process.OutputDataReceived += (sender, e) =>
                     {
-                        Console.WriteLine($"- {game.GameName}");
+                        if (!string.IsNullOrEmpty(e.Data))
+                            output.AppendLine(e.Data);
+                    };
+
+                    process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if (!string.IsNullOrEmpty(e.Data))
+                            error.AppendLine(e.Data);
+                    };
+
+                    process.Start();
+
+                    // 开始异步读取输出流
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    process.WaitForExit(); // 等待进程结束
+
+                    // 获取最终输出结果
+                    string standardOutput = output.ToString();
+                    string standardError = error.ToString();
+
+                    Debug.WriteLine("标准输出:");
+                    Debug.WriteLine(standardOutput);
+
+                    if (!string.IsNullOrEmpty(standardError))
+                    {
+                        Debug.WriteLine("错误输出:");
+                        Debug.WriteLine(standardError);
                     }
 
-                    Console.Write("Please enter the game name you want to launch: ");
-                    gameName = Console.ReadLine();
-                    if (gameConfigs.Count == 1)
-                    {
-                        selectedGame = gameConfigs[0];
-                    }
-                    else
-                    {
-                        selectedGame = gameConfigs.FirstOrDefault(g =>
-                            g.GameName.Equals(gameName, StringComparison.OrdinalIgnoreCase));
-                    }
+                    return Result<bool>.Success(true);
                 }
-                else
-                {
-                    Console.WriteLine("Game not found in the configuration.");
-                    return;
-                }
-
-                if (selectedGame == null)
-                {
-                    Console.WriteLine($"Game '{gameName}' not found in the configuration.");
-                    return;
-                }
-
-                // 检查 .jar 文件是否存在
-                Console.WriteLine($"Checking if game file exists at {selectedGame.GamePath}");
-                if (!File.Exists(selectedGame.GamePath))
-                {
-                    Console.WriteLine($"Error: Game file not found at {selectedGame.GamePath}");
-                    return;
-                }
-
-                Console.WriteLine($"Launching {selectedGame.GameName}...");
-
-                string username = userProfile.Name;
-                string gameVersion = selectedGame.GameVersion;
-                string memoryArgs = selectedGame.MemoryArgs;
-                string? accessToken = userProfile.AccessToken ?? string.Empty;
-                string javaPath = selectedGame.JavaPath ?? "java";
-
-                string uuid = userProfile.uuid;
-                string command = MinecraftLauncherUtils.BuildLaunchCommand(gameVersion, accessToken, uuid,
-                    username, memoryArgs);
-
-                var startInfo = new ProcessStartInfo
-                {
-                    FileName = javaPath,
-                    Arguments = command,
-                    UseShellExecute = true,
-                    CreateNoWindow = false,
-                    WindowStyle = ProcessWindowStyle.Hidden // 隐藏窗口样式
-                };
-                try
-                {
-                    Process.Start(startInfo);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error launching game: {ex.Message}");
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                return Result<bool>.Failure(ex.Message);
+            }
         }
     }
 }

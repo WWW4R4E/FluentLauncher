@@ -1,9 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- 公开API可见性配置 -->
+    <EnableMonoPublicAPI>true</EnableMonoPublicAPI>
+    <AssemblyName>FluentLauncher.Core</AssemblyName>
+    <EnableWinMDAssembly>true</EnableWinMDAssembly>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 <!--    <PublishAot>true</PublishAot>-->
     <PublishSingleFile>true</PublishSingleFile>
 <!--    <PublishTrimmed>true</PublishTrimmed>-->
@@ -15,6 +21,7 @@
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
     <JsonSerializer>SourceGeneration</JsonSerializer>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>

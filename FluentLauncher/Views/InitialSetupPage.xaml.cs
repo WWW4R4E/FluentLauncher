@@ -7,11 +7,13 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System.Diagnostics;
 using Windows.Security.Credentials;
 using Windows.UI;
+using FluentLauncher.Core.Models;
 
 namespace FluentLauncher.Views
 {
     public sealed partial class InitialSetupPage : Page
     {
+
         private enum SetupPage
         {
             Language,
@@ -31,7 +33,7 @@ namespace FluentLauncher.Views
         };
 
         private SetupPage _currentPage = SetupPage.Language;
-        private bool _isTransitioning = true; 
+        private bool _isTransitioning = true;
 
         public InitialSetupPage()
         {
@@ -39,19 +41,33 @@ namespace FluentLauncher.Views
             ShowPage(SetupPage.Language, true);
         }
 
+        public (List<JavaPath> jdkPaths, string mcDir, string? userName, string accessToken, string uuid) GetSetupData()
+        {
+            var jdkControl = _pages[(int)SetupPage.JDK] as JDKPathControl;
+            var mcControl = _pages[(int)SetupPage.Minecraft] as MinecraftDirectoryControl;
+            var accountControl = _pages[(int)SetupPage.Account] as AccountControl;
+
+            return (
+                jdkControl.JdkPaths,
+                mcControl.SelectedMinecraftDir,
+                accountControl.UserName,
+                accountControl.AccessToken,
+                accountControl.UUid
+            );
+        }
+
         private void ShowPage(SetupPage page, bool isNext = true)
         {
-
             try
             {
                 _isTransitioning = false;
                 UpdateButtonStates();
-   
+
                 Storyboard slideOutStoryboard = new Storyboard();
                 DoubleAnimation slideOut = new DoubleAnimation
                 {
                     From = 0,
-                    To = isNext ? -200 : 200, 
+                    To = isNext ? -200 : 200,
                     Duration = new Duration(TimeSpan.FromMilliseconds(500)),
                     EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
                 };
@@ -81,7 +97,7 @@ namespace FluentLauncher.Views
                     Storyboard slideInStoryboard = new Storyboard();
                     DoubleAnimation slideIn = new DoubleAnimation
                     {
-                        From = isNext ? 200 : -200, 
+                        From = isNext ? 200 : -200,
                         To = 0,
                         Duration = new Duration(TimeSpan.FromMilliseconds(300)),
                         EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
@@ -112,7 +128,7 @@ namespace FluentLauncher.Views
                 };
 
                 slideOutStoryboard.Begin();
-            
+
             }
             catch (Exception ex)
             {

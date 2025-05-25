@@ -20,9 +20,11 @@
             <Configuration>Release</Configuration>
             <SelfContained>true</SelfContained>
             <PublishTrimmed>true</PublishTrimmed>
+            <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
         </PropertyGroup>
       <ItemGroup>
         <None Remove="Controls\FinishSetupControl.xaml" />
+        <None Remove="Controls\LoginContentDialog.xaml" />
         <None Remove="Views\DownloadPage.xaml" />
         <None Remove="Views\ManageDetailPage.xaml" />
         <None Remove="Views\ManagePage.xaml" />
@@ -38,10 +40,36 @@
       <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.4.25258.110" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250402001" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
 
+      </ItemGroup>
+
+      <ItemGroup>
+        <ProjectReference Include="..\FluentLauncher.Core\FluentLauncher.Core.csproj" />
+      </ItemGroup>
+
+      <ItemGroup>
+        <Compile Update="Properties\Settings.Designer.cs">
+          <DesignTimeSharedInput>True</DesignTimeSharedInput>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Settings.settings</DependentUpon>
+        </Compile>
+      </ItemGroup>
+
+      <ItemGroup>
+        <None Update="Properties\Settings.settings">
+          <Generator>SettingsSingleFileGenerator</Generator>
+          <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+        </None>
+      </ItemGroup>
+
+      <ItemGroup>
+        <Page Update="Controls\LoginContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
       </ItemGroup>
 
       <ItemGroup>

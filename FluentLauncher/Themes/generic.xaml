@@ -33,7 +33,7 @@
                 <ControlTemplate TargetType="controls:SplitButton">
                     <Grid
                         x:Name="RootGrid"
-                        Background="#FF006cd4"
+                        Background="{ThemeResource SplitButtonBackground}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid.Resources>
                             <!--  Override the style of the inner buttons so that they don't affect background/foreground/border colors  -->
@@ -75,7 +75,6 @@
                                                                 <Setter Target="ContentPresenter.(controls:AnimatedIcon.State)" Value="PointerOver" />
                                                             </VisualState.Setters>
                                                         </VisualState>
-
 
                                                         <VisualState x:Name="Pressed">
                                                             <VisualState.Setters>
@@ -194,7 +193,6 @@
                                         <Setter Target="PrimaryBackgroundGrid.Background" Value="Transparent" />
                                         <Setter Target="SecondaryBackgroundGrid.Background" Value="Transparent" />
                                         <Setter Target="RootGrid.Background" Value="Transparent" />
-
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="FlyoutOpen">
@@ -328,7 +326,6 @@
 
                                     </VisualState.Setters>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="SecondaryButtonPlacementStates">
                                 <VisualState x:Name="SecondaryButtonRight" />

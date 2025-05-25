@@ -7,11 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FluentLauncher.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentLauncher.Models"
+    xmlns:models="using:FluentLauncher.Core.Models"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="models:GameData">
+        <DataTemplate x:Key="ContactListViewTemplate" x:DataType="models:GameConfig">
             <controls:SettingsExpander Header="{x:Bind GameName}">
                 <controls:SettingsExpander.HeaderIcon>
                     <ImageIcon Source="/Assets/LockScreenLogo.png" />

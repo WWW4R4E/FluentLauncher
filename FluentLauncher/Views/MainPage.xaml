@@ -1,10 +1,24 @@
-﻿<Page
+<Page
     x:Class="FluentLauncher.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <!--  白天模式资源  -->
+        <SolidColorBrush x:Key="SplitButtonBackground" Color="#FF006cd4" />
+        <SolidColorBrush x:Key="SplitButtonForeground" Color="Black" />
+
+        <!--  夜间模式资源  -->
+        <SolidColorBrush x:Key="SplitButtonBackground_Dark" Color="White" />
+        <SolidColorBrush x:Key="SplitButtonForeground_Dark" Color="White" />
+        <SolidColorBrush x:Key="SplitButtonBorderBrush_Dark" Color="DarkGray" />
+
+    </Page.Resources>
 
     <Grid x:Name="ContentArea">
         <Grid Margin="0,18" VerticalAlignment="Bottom">
@@ -22,7 +36,7 @@
                 Width="160"
                 Height="64"
                 VerticalAlignment="Bottom"
-                Background="#FF242425"
+                Background="{ThemeResource ButtonBackground}"
                 BorderBrush="Transparent"
                 CornerRadius="8"
                 Shadow="{ThemeResource SharedShadow}"
@@ -35,7 +49,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="2" VerticalAlignment="Center">
                         <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="789" />
-                        <TextBlock Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource CaptionTextBlockStyle}">
+                        <TextBlock>
                             <Run Text="123" />
                             <Run Text="456" />
                         </TextBlock>
@@ -44,26 +58,32 @@
             </DropDownButton>
 
             <!--  右侧按钮  -->
-
             <SplitButton
                 x:Name="GameSelectButton"
                 Grid.Column="1"
                 Width="160"
                 Height="64"
                 HorizontalAlignment="Right"
-                Background="#FF006cd4"
-                BorderBrush="Transparent"
+                Command="{x:Bind ViewModel.LauncherGameCommand}"
                 FlowDirection="LeftToRight"
                 Shadow="{ThemeResource SharedShadow}"
                 Style="{StaticResource CustomSplitButtonStyle}">
-                <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="启动游戏" />
+                <TextBlock
+                    FontSize="16"
+                    Foreground="{ThemeResource TextBoxForegroundHeaderThemeBrush}"
+                    Text="启动游戏" />
                 <SplitButton.Flyout>
                     <Flyout Placement="TopEdgeAlignedRight">
-                        <ListView Width="180">
-                            <ListViewItem>1</ListViewItem>
-                            <ListViewItem>1</ListViewItem>
-                            <ListViewItem>1</ListViewItem>
-                            <ListViewItem>1</ListViewItem>
+                        <ListView
+                            Width="180"
+                            Background="{ThemeResource CardBackgroundFillColorDefault}"
+                            ItemsSource="{x:Bind ViewModel.GameList}"
+                            SelectedItem="{x:Bind ViewModel.SelectedGame, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding GameVersion}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Flyout>
                 </SplitButton.Flyout>

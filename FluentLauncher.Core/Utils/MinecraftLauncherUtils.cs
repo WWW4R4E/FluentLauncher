@@ -1,14 +1,15 @@
-using Launcher.Core.Models;
+using System.Diagnostics;
+using FluentLauncher.Core.Models;
 using System.Text.Json;
 
-namespace Launcher.Core.Utils;
+namespace FluentLauncher.Core.Utils;
 
 public static class MinecraftLauncherUtils
 {
     /// <summary>
     /// 获取 Minecraft 游戏目录
     /// </summary>
-    public static string GetGameDirectory()
+    private static string GetGameDirectory()
     {
         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
     }
@@ -16,7 +17,7 @@ public static class MinecraftLauncherUtils
     /// <summary>
     /// 获取指定版本的类路径（包含所有依赖库和主 JAR 文件）
     /// </summary>
-    public static string GetClassPath(string version, string librariesDir, string versionsDir)
+    private static string GetClassPath(string version, string librariesDir, string versionsDir)
     {
         string versionJarPath = Path.Combine(versionsDir, version, $"{version}.jar");
         List<string> libraryPaths = GetLibraryPaths(version, librariesDir, versionsDir);
@@ -43,28 +44,23 @@ public static class MinecraftLauncherUtils
         {
             var json = File.ReadAllText(versionJsonPath);
             var versionJson = JsonSerializer.Deserialize(
-                json, 
-                SourceGenerationContext.Default.VersionJson // 使用生成的上下文
+                json,
+                VersionJsonContext.Default.VersionJson // 使用生成的上下文
             );
 
-            foreach (var library in versionJson.Libraries)
-            {
-                // 添加库规则过滤逻辑（根据当前代码逻辑保留）
-                if (library.Downloads?.Artifact != null)
+            if (versionJson != null)
+                foreach (var library in versionJson.Libraries)
                 {
-                    string[] parts = library.Name.Split(':');
-                    if (parts.Length == 3)
+                    var parts = library.Name.Split(':');
+                    if (parts.Length != 3) continue;
+                    var path = Path.Combine(parts[0].Replace('.', Path.DirectorySeparatorChar),
+                        parts[1], parts[2], $"{parts[1]}-{parts[2]}.jar");
+                    var fullPath = Path.Combine(librariesDir, path);
+                    if (File.Exists(fullPath))
                     {
-                        string path = Path.Combine(parts[0].Replace('.', Path.DirectorySeparatorChar),
-                            parts[1], parts[2], $"{parts[1]}-{parts[2]}.jar");
-                        string fullPath = Path.Combine(librariesDir, path);
-                        if (File.Exists(fullPath))
-                        {
-                            libraryPaths.Add(fullPath);
-                        }
+                        libraryPaths.Add(fullPath);
                     }
                 }
-            }
         }
         catch (Exception ex)
         {
@@ -77,30 +73,28 @@ public static class MinecraftLauncherUtils
     /// <summary>
     /// 获取资源索引 ID
     /// </summary>
-    
-    public static string GetAssetIndex(string version, string versionsDir)
+    private static string? GetAssetIndex(string version, string versionsDir)
     {
-        
         string versionJsonPath = Path.Combine(versionsDir, version, $"{version}.json");
 
         if (!File.Exists(versionJsonPath))
         {
             Console.WriteLine($"版本 JSON 文件不存在：{versionJsonPath}");
-            return "17";
         }
 
         try
         {
             var json = File.ReadAllText(versionJsonPath);
             var versionJson = JsonSerializer.Deserialize(
-                json, 
-                SourceGenerationContext.Default.VersionJson // 使用生成的上下文
+                json,
+                VersionJsonContext.Default.VersionJson // 使用生成的上下文
             );
-            return versionJson?.AssetIndex?.Id ?? "17";
+            return versionJson?.Id;
         }
         catch
         {
-            return "17";
+            Debug.Write( "解析版本文件失败");
+            throw  ;
         }
     }
 
@@ -120,7 +114,7 @@ public static class MinecraftLauncherUtils
         string librariesDir = Path.Combine(gameDir, "libraries");
         string versionsDir = Path.Combine(gameDir, "versions");
         string nativesDir = Path.Combine(versionsDir, version, "natives");
-        string assetIndex = GetAssetIndex(version, versionsDir);
+        string? assetIndex = GetAssetIndex(version, versionsDir);
         string classPath = GetClassPath(version, librariesDir, versionsDir);
         return $" {memoryArgs} " +
                $"-Dminecraft.client.jar=\"{Path.Combine(versionsDir, version, $"{version}.jar")}\" " +

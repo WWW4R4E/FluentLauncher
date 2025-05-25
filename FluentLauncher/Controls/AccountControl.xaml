@@ -18,7 +18,6 @@
         </Grid.RowDefinitions>
         <!--  标题  -->
         <TextBlock
-            x:Uid="OOBE_AccountPage_T"
             HorizontalAlignment="Center"
             FontSize="28"
             FontWeight="SemiBold"
@@ -40,27 +39,25 @@
                 HorizontalAlignment="Center"
                 FontSize="16"
                 Foreground="#666666"
+                HorizontalTextAlignment="Center"
                 TextWrapping="WrapWholeWords">
-                <Run x:Uid="OOBE_AccountPage_D1" Text="您需要至少一个账户才能开始游戏" />
+                <Run Text="您需要至少一个账户才能开始游戏" />
                 <LineBreak />
-                <Run x:Uid="OOBE_AccountPage_D2" Text="只有使用 Microsoft 账户才能访问在线服务器" />
+                <Run Text="只有使用 Microsoft 账户才能访问在线服务器" />
                 <LineBreak />
-                <Run x:Uid="OOBE_AccountPage_D3" Text="离线账户不会被服务器验证" />
+                <Run Text="离线账户不会被服务器验证" />
             </TextBlock>
             <StackPanel
                 HorizontalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="12">
                 <Button
-                    x:Name="loginButton"
-                    x:Uid="OOBE_AccountPage_LoginBtn"
                     Height="40"
-                    CommandParameter="{x:Bind loginButton}"
+                    Click="Button_Click"
                     Content="登录"
                     Style="{StaticResource ModernButtonStyle}" />
 
                 <HyperlinkButton
-                    x:Uid="OOBE_AccountPage_L"
                     Content="Minecraft 官方网站"
                     NavigateUri="https://www.minecraft.net/en-us"
                     Style="{StaticResource ModernHyperlinkButtonStyle}" />

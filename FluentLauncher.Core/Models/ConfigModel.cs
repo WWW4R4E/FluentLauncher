@@ -1,227 +1,210 @@
 using System.Text.Json.Serialization;
 
-namespace Launcher.Core.Models;
+namespace FluentLauncher.Core.Models;
+
+#region 配置文件
 
 public class ConfigModel
 {
-    [JsonPropertyName("launcher")]
-    public LauncherConfig? LauncherConfig { get; set; }
+    [JsonPropertyName("user")] public UserProfile? UserConfig { get; set; }
 
-    [JsonPropertyName("user")]
-    public UserProfile? UserConfig { get; set; }
+    [JsonPropertyName("game")] public List<GameConfig>? GameConfig { get; set; }
 
-    [JsonPropertyName("game")]
-    public List<GameConfig>? GameConfig { get; set; }
     [JsonPropertyName("MinecraftPath")]
     public string? MinecraftPath { get; set; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         ".minecraft"
     );
-}
-
-public class LauncherConfig
-{
-    [JsonPropertyName("javaPath")]
-    public List<string> JavaPath { get; set; } = new();
-
-    [JsonPropertyName("memory")]
-    public int Memory { get; set; } = 1024;
-
-    [JsonPropertyName("fullscreen")]
-    public bool Fullscreen { get; set; } = false;
+    [JsonPropertyName("jdkPathGroups")]
+    public List<JavaPath> JavaPathGroup { get; set; }
 }
 
 public class UserProfile
 {
-    [JsonPropertyName("uuid")]
-    public string uuid { get; set; } = Guid.NewGuid().ToString();
+    [JsonPropertyName("uuid")] public string uuid { get; set; } = Guid.NewGuid().ToString();
 
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "Steve";
-    [JsonPropertyName("accessToken")]
-    public string? AccessToken { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; } = "Steve";
+    [JsonPropertyName("accessToken")] public string? AccessToken { get; set; }
 }
+
 public class GameConfig
 {
-
-    [JsonPropertyName("gameName")]
-    public string GameName { get; set; }
-    [JsonPropertyName("gameVersion")]
-    public string GameVersion { get; set; }
-    [JsonPropertyName("gamePath")]
-    public string GamePath { get; set; }
-    [JsonPropertyName("javaPath")]
-    public string JavaPath { get; set; }
-    [JsonPropertyName("memory")]
-    public int Memory { get; set; } = 1024;
-
-    [JsonPropertyName("fullscreen")]
-    public bool Fullscreen { get; set; }
-    [System.Text.Json.Serialization.JsonIgnore]
-    public string MemoryArgs => $"-Xms{Memory / 2}M -Xmx{Memory}M";
-}
-public class VersionJson
-{
-    [System.Text.Json.Serialization.JsonConstructor]
-    public VersionJson(
-        GameArguments arguments,
-        AssetIndex assetIndex,
-        List<Library> libraries,
-        string mainClass,
-        string id)
-    {
-        Arguments = arguments;
-        AssetIndex = assetIndex;
-        Libraries = libraries;
-        MainClass = mainClass;
-        Id = id;
-    }
-
-    [JsonPropertyName("arguments")]
-    public GameArguments Arguments { get; set; }
-
-    [JsonPropertyName("assetIndex")]
-    public AssetIndex AssetIndex { get; set; }
-
-    [JsonPropertyName("libraries")]
-    public List<Library> Libraries { get; set; }
-    
-    [JsonPropertyName("mainClass")]
-    public string MainClass { get; set; }
-
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
+    [JsonPropertyName("gameName")] public string GameName { get; set; }
+    [JsonPropertyName("gameVersion")] public string GameVersion { get; set; }
+    [JsonPropertyName("gamePath")] public string GamePath { get; set; }
+    [JsonPropertyName("modManage")] public List<Mod> Mods { get; set; }
+    [JsonPropertyName("gameSave")] public List<GameSave> GameSaves { get; set; }
+    [JsonPropertyName("GameArguments")] public GameArgument GameArguments { get; set; }
 }
 
-public class GameArguments
+public class GameSave
 {
-    [System.Text.Json.Serialization.JsonConstructor]
-    public GameArguments(
-        List<object> game,
-        List<object> jvm)
-    {
-        Game = game;
-        Jvm = jvm;
-    }
+    [JsonPropertyName("saveName")] public string SaveName { get; set; }
 
-    [JsonPropertyName("game")]
-    public List<object> Game { get; set; }
+    [JsonPropertyName("savePath")] public string SavePath { get; set; }
 
-    [JsonPropertyName("jvm")]
-    public List<object> Jvm { get; set; }
+    [JsonPropertyName("saveTime")] public DateTime SaveTime { get; set; }
 }
 
-// 添加新的参数类型模型
-public class JvmArgument
+public class Mod
 {
-    [JsonPropertyName("rules")]
-    public List<Rule> Rules { get; set; }
-    
-    [JsonPropertyName("value")]
-    public object Value { get; set; } // 可以是字符串或数组
+    [JsonPropertyName("modName")] public string ModName { get; set; }
+    [JsonPropertyName("modVersion")] public string ModVersion { get; set; }
+    [JsonPropertyName("modPath")] public string ModPath { get; set; }
+    [JsonPropertyName("modType")] public string ModType { get; set; } // e.g., "Forge", "Fabric", etc.
 }
 
 public class GameArgument
 {
-    [JsonPropertyName("rules")]
-    public List<Rule> Rules { get; set; }
-    
-    [JsonPropertyName("value")]
-    public object Value { get; set; } // 可以是字符串或数组
+    [JsonPropertyName("fullScrean")] public bool FullScrean { get; set; } = false;
+    [JsonPropertyName("memoryArgs")] public string memoryArgs { get; set; } = "-Xmx512M -Xms1024M";
+    [JsonPropertyName("javaPath")] public string javaPath { get; set; } = "java";
+    [JsonPropertyName("gameSize")] public Tuple<uint, uint> GameSize { get; set; } = new Tuple<uint, uint>(1280, 720);
 }
-
-public class AssetIndex
+public class JavaPath
 {
-    public AssetIndex() {}
-    
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
 
-    [JsonPropertyName("sha1")]
-    public string Sha1 { get; set; }
-    
-    [JsonPropertyName("size")]
-    public int Size { get; set; }
+    [JsonPropertyName("path")] public string Path { get; set; }
+    [JsonPropertyName("version")] public string Version { get; set; }
 }
 
-public class Library
+#endregion
+
+#region 下载json
+
+public class VersionsJson
 {
-    public Library() {}
-    
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("latest")] public Latest Latest { get; set; }
 
-    [JsonPropertyName("downloads")]
-    public LibraryDownloads Downloads { get; set; }
-
-    [JsonPropertyName("rules")]
-    public List<Rule> Rules { get; set; }
+    [JsonPropertyName("versions")] public List<VersionInfo> Versions { get; set; }
 }
 
-public class LibraryDownloads
+public class Latest
 {
-    [JsonPropertyName("artifact")]
-    public Artifact Artifact { get; set; }
-    
-    [JsonPropertyName("classifiers")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, Artifact> Classifiers { get; set; }
+    [JsonPropertyName("release")] public string Release { get; set; }
+
+    [JsonPropertyName("snapshot")] public string Snapshot { get; set; }
 }
 
-public class Artifact
+public class VersionInfo
 {
-    [JsonPropertyName("path")]
-    public string Path { get; set; }
+    [JsonPropertyName("id")] public string Id { get; set; }
+
+    [JsonPropertyName("type")] public string Type { get; set; }
+
+    [JsonPropertyName("url")] public string Url { get; set; }
+
+    [JsonPropertyName("time")] public DateTime Time { get; set; }
+
+    [JsonPropertyName("releaseTime")] public DateTime ReleaseTime { get; set; }
 }
 
-public class Rule
+#endregion
+
+#region 版本json
+
+public class VersionJson
 {
-    [JsonPropertyName("action")]
-    public string Action { get; set; }
-
-    [JsonPropertyName("os")]
-    public OsCondition Os { get; set; }
+    [JsonPropertyName("arguments")] public Arguments Arguments { get; set; }
+    [JsonPropertyName("assetIndex")] public AssetIndex AssetIndex { get; set; }
+    [JsonPropertyName("assets")] public string Assets { get; set; }
+    [JsonPropertyName("compliancelevel")] public int ComplianceLevel { get; set; }
+    [JsonPropertyName("downloads")] public Downloads Downloads { get; set; }
+    [JsonPropertyName("id")] public string? Id { get; set; }
+    [JsonPropertyName("javaVersion")] public JavaVersion JavaVersion { get; set; }
+    [JsonPropertyName("libraries")] public List<Library> Libraries { get; set; }
+    [JsonPropertyName("logging")] public LoggingConfig Logging { get; set; }
+    [JsonPropertyName("mainClass")] public string MainClass { get; set; }
+    [JsonPropertyName("releaseTime")] public string ReleaseTime { get; set; }
+    [JsonPropertyName("time")] public string Time { get; set; }
+    [JsonPropertyName("type")] public string Type { get; set; }
 }
 
-public class OsCondition
+public class Downloads
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-
-    [JsonPropertyName("arch")]
-    public string Arch { get; set; }
+    [JsonPropertyName("client")] public DowenloadItem Client { get; set; }
+    [JsonPropertyName("client_mappings")] public DowenloadItem ClientMappings { get; set; }
+    [JsonPropertyName("server")] public DowenloadItem Server { get; set; }
+    [JsonPropertyName("server_mappings")] public DowenloadItem ServerMappings { get; set; }
 }
 
-// 添加新的日志配置模型
+public class DowenloadItem
+{
+    [JsonPropertyName("sha1")] public string Sha1 { get; set; }
+    [JsonPropertyName("size")] public int Size { get; set; }
+    [JsonPropertyName("url")] public string Url { get; set; }
+}
+
+public class JavaVersion
+{
+    [JsonPropertyName("component")] public string Component { get; set; }
+
+    [JsonPropertyName("majorVersion")] public int MajorVersion { get; set; }
+}
+
 public class LoggingConfig
 {
-    [JsonPropertyName("client")]
-    public LoggingClient Client { get; set; }
+    [JsonPropertyName("client")] public LoggingClient Client { get; set; }
 }
 
 public class LoggingClient
 {
-    [JsonPropertyName("argument")]
-    public string Argument { get; set; }
-    
-    [JsonPropertyName("file")]
-    public LoggingFile File { get; set; }
-    
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
+    [JsonPropertyName("argument")] public string Argument { get; set; }
+    [JsonPropertyName("file")] public LoggingFile File { get; set; }
+    [JsonPropertyName("type")] public string Type { get; set; }
 }
 
 public class LoggingFile
 {
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
-    
-    [JsonPropertyName("sha1")]
-    public string Sha1 { get; set; }
-    
-    [JsonPropertyName("size")]
-    public int Size { get; set; }
-    
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [JsonPropertyName("id")] public string Id { get; set; }
+
+    [JsonPropertyName("sha1")] public string Sha1 { get; set; }
+
+    [JsonPropertyName("size")] public int Size { get; set; }
+
+    [JsonPropertyName("url")] public string Url { get; set; }
 }
+
+public class DownloadArtifact
+{
+    [JsonPropertyName("sha1")] public string Sha1 { get; set; }
+
+    [JsonPropertyName("size")] public int Size { get; set; }
+
+    [JsonPropertyName("url")] public string Url { get; set; }
+
+    [JsonPropertyName("path")] public string Path { get; set; }
+}
+
+public class LibraryDownloads
+{
+    [JsonPropertyName("artifact")] public DownloadArtifact Artifact { get; set; }
+}
+
+public class Library
+{
+    [JsonPropertyName("name")] public string Name { get; set; }
+
+    [JsonPropertyName("downloads")] public LibraryDownloads Downloads { get; set; }
+}
+
+public class Arguments
+{
+    [JsonPropertyName("game")] public List<string> GameArguments { get; set; }
+
+    [JsonPropertyName("jvm")] public List<string> JvmArguments { get; set; }
+}
+
+public class AssetIndex
+{
+    [JsonPropertyName("id")] public string Id { get; set; }
+
+    [JsonPropertyName("sha1")] public string Sha1 { get; set; }
+
+    [JsonPropertyName("size")] public int Size { get; set; }
+    [JsonPropertyName("totalSize")] public int TotalSize { get; set; }
+
+    [JsonPropertyName("url")] public string Url { get; set; }
+}
+
+#endregion

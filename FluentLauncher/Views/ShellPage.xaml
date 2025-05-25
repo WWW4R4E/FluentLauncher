@@ -40,7 +40,10 @@
             IsSettingsVisible="False"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="FluentLauncher.ViewModels.MainViewModel">
+                <NavigationViewItem
+                    x:Uid="Shell_Main"
+                    helpers:NavigationHelper.NavigateTo="FluentLauncher.ViewModels.MainViewModel"
+                    Content="{x:Bind ViewModel.MainSelectGame, Mode=OneWay}">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;" />
                     </NavigationViewItem.Icon>

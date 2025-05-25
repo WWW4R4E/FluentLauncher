@@ -8,6 +8,7 @@
     xmlns:local="using:FluentLauncher.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FluentLauncher.Models"
+        NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -34,10 +35,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Spacing="16">
-            <ComboBox
-                DisplayMemberPath="Item1"
-                SelectedIndex="0"
-                SelectedValuePath="Item2">
+            <ComboBox DisplayMemberPath="Item1" SelectedIndex="0">
                 <ComboBoxItem>正式版</ComboBoxItem>
                 <ComboBoxItem>"快照版"</ComboBoxItem>
                 <ComboBoxItem>"远古版β"</ComboBoxItem>

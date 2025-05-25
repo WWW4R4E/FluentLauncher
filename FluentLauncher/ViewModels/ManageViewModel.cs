@@ -1,38 +1,31 @@
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+    using CommunityToolkit.Mvvm.ComponentModel;
+using FluentLauncher.Core.Models;
+using FluentLauncher.Core.Utils;
 using FluentLauncher.Models;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace FluentLauncher.ViewModels;
 
 public partial class ManageViewModel : ObservableRecipient
 {
-    [ObservableProperty] 
-    private ObservableCollection<GameData> _versions;
+    [ObservableProperty]
+    private ObservableCollection<GameConfig> _versions;
     public ManageViewModel()
     {
-        Versions = new ObservableCollection<GameData>
+        LoadGamesAsync();
+    }
+
+    public async void LoadGamesAsync()
+    {
+        try
         {
-            new ()
-            {
-                GameName = "Minecraft",
-                GameVersion = "1.19.2",
-                IsAddMod = true,
-                ModLoaders = ModLoaders.Forge
-            },
-            new ()
-            {
-                GameName = "Minecraft",
-                GameVersion = "1.18.2",
-                IsAddMod = false,
-                ModLoaders = ModLoaders.Fabric
-            },
-            new ()
-            {
-                GameName = "Minecraft",
-                GameVersion = "1.17.1",
-                IsAddMod = true,
-                ModLoaders = ModLoaders.Quilt
-            }
-        };
+            var json = await JsonConfigUtils.LoadFromFile();
+            Versions = new ObservableCollection<GameConfig>(json.GameConfig);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"加载游戏配置失败: {ex.Message}");
+        }
     }
 }

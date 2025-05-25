@@ -15,6 +15,9 @@ public partial class ShellViewModel : ObservableRecipient
     [ObservableProperty]
     private object? selected;
 
+    [ObservableProperty]
+    public string mainSelectGame;
+
     public INavigationService NavigationService
     {
         get;

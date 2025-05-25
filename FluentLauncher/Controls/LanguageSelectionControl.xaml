@@ -43,12 +43,10 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="OOBE_LanguagePage_T"
                     Foreground="{ThemeResource SystemAccentColor}"
                     Style="{ThemeResource TitleTextBlockStyle}"
                     Text="Language" />
                 <TextBlock
-                    x:Uid="OOBE_LanguagePage_D"
                     Grid.Row="1"
                     FontSize="16"
                     Foreground="#666666"
@@ -56,15 +54,18 @@
                     TextWrapping="WrapWholeWords" />
             </Grid>
         </Grid>
-        <ComboBox
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            Width="200"
-            HorizontalAlignment="Center">
-            <ComboBoxItem Content="English" Tag="en-US" />
-            <ComboBoxItem Content="简体中文" Tag="zh-CN" />
-            <ComboBoxItem Content="繁體中文" Tag="zh-TW" />
-            <!--  添加更多语言选项  -->
-        </ComboBox>
+<ComboBox
+    Grid.Row="1"
+    Grid.ColumnSpan="3"
+    x:Name="LanguageComboBox"
+    Width="200"
+    HorizontalAlignment="Center"
+    SelectionChanged="LanguageComboBox_SelectionChanged">
+    <ComboBoxItem Content="English" Tag="en-US" />
+    <ComboBoxItem Content="简体中文" Tag="zh-CN" />
+    <ComboBoxItem Content="繁體中文" Tag="zh-TW" />
+    <!-- 添加更多语言选项 -->
+</ComboBox>
+
     </StackPanel>
 </UserControl>
