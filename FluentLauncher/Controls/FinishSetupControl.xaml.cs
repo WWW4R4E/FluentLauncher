@@ -13,10 +13,8 @@ namespace FluentLauncher.Controls
         {
             var page = App.GetService<InitialSetupPage>();
             var (jdkPath, mcDir, username, accesstoken, uuid) = App.GetService<InitialSetupPage>().GetSetupData();
-           InitCommand.InitializeAsync(jdkPath, mcDir, username, accesstoken, uuid).GetAwaiter().GetResult();
+            InitCommand.InitializeAsync(jdkPath, mcDir, username, accesstoken, uuid);
             App.MainWindow.Content = App.GetService<ShellPage>();
-
-
         }
     }
 }

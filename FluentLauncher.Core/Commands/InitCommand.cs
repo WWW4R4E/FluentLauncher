@@ -5,14 +5,14 @@ namespace FluentLauncher.Core.Commands;
 
 public static class InitCommand
 {
-    public static async Task InitializeAsync(List<JavaPath> jdkPaths, string mineCraftPath, string? uuid , string username, string accesstoken )
+    public static async Task InitializeAsync(List<JavaPath> jdkPaths, string mineCraftPath, string? uuid , string? username, string? accesstoken )
     {
         var config = new ConfigModel
         {
             UserConfig = new UserProfile
             {
                 uuid = uuid ?? Guid.NewGuid().ToString(),
-                Name = username,
+                Name = username ?? "Steve",
                 AccessToken = accesstoken
             },
             GameConfig = new List<GameConfig>(),

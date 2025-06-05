@@ -1,3 +1,4 @@
+using FluentLauncher.Models;
 using FluentLauncher.ViewModels;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -17,18 +18,17 @@ namespace FluentLauncher.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            // Fix for CS0029: Explicitly check if e.Parameter is a non-empty string
-            if (e.Parameter is string parameter && !string.IsNullOrEmpty(parameter))
+            if (e.Parameter is NavigationParameter parameter && 
+                !string.IsNullOrEmpty(parameter.CardType) && 
+                !string.IsNullOrEmpty(parameter.Path))
             {
-                var L = new List<DataTemplate>()
+                ViewModel.Resources = new List<DataTemplate>()
                 {
                     Resources["GameSaveListViewTemplate"] as DataTemplate,
                     Resources["ModListViewTemplate"] as DataTemplate,
                     Resources["GameArgumentListViewTemplate"] as DataTemplate
                 };
-                ViewModel.Resources = L;
-                DispatcherQueue.TryEnqueue(() => { ViewModel.LoadData(parameter); });
+                DispatcherQueue.TryEnqueue(() => { ViewModel.LoadData(parameter.CardType, parameter.Path); });
             }
         }
     }

@@ -11,5 +11,6 @@ namespace FluentLauncher.Models
         public string gameVersion { get; set; }
         public string gamedescribe { get; set; }
         public List<ModLoaders> modLoaders { get; set; }
+        public string type { get; set; }
     }
 }

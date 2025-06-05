@@ -46,13 +46,13 @@ namespace FluentLauncher.Core.Utils
             var clientJarPath = Path.Combine(versionDir, $"{version.Id}.jar");
             if (versionDetails != null)
             {
-                await DownloadFileAsync(versionDetails.MainClass, clientJarPath);
+                await DownloadFileAsync(versionDetails.Value.MainClass, clientJarPath);
 
                 // 下载资源文件
-                await DownloadAssetsAsync(versionDetails.AssetIndex);
+                await DownloadAssetsAsync(versionDetails.Value.AssetIndex);
 
                 // 下载依赖库
-                await DownloadLibrariesAsync(versionDetails.Libraries);
+                await DownloadLibrariesAsync(versionDetails.Value.Libraries);
             }
             else
             {

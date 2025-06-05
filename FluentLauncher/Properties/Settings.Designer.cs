@@ -34,5 +34,17 @@ namespace FluentLauncher.Properties {
                 this["LastSelectGame"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Applocal {
+            get {
+                return ((string)(this["Applocal"]));
+            }
+            set {
+                this["Applocal"] = value;
+            }
+        }
     }
 }

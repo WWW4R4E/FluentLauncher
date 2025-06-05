@@ -13,7 +13,6 @@ public partial class ManageViewModel : ObservableRecipient
     private ObservableCollection<GameConfig> _versions;
     public ManageViewModel()
     {
-        LoadGamesAsync();
     }
 
     public async void LoadGamesAsync()

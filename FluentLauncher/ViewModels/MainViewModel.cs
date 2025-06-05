@@ -9,6 +9,7 @@ using FluentLauncher.Services;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Windows.System;
 
 
 namespace FluentLauncher.ViewModels;
@@ -27,7 +28,7 @@ public partial class MainViewModel : ObservableRecipient
     public MainViewModel()
     {
         _shellViewModel = App.GetService<ShellViewModel>();
-     
+
         PageHash = Guid.NewGuid().ToString();
     }
 
@@ -35,7 +36,13 @@ public partial class MainViewModel : ObservableRecipient
     {
         ResourceLoader resourceLoader = new();
         var a = Properties.Settings.Default.LastSelectGame;
-     
+        //TODO 修复System.NullReferenceException
+        //      HResult = 0x80004003
+        //Message = Object reference not set to an instance of an object.
+        //Source = FluentLauncher
+        //StackTrace:
+        //      在 FluentLauncher.ViewModels.MainViewModel.InitializeViewModel() 在 C:\Users\123\Desktop\启动器\FluentLauncher\ViewModels\MainViewModel.cs 中: 第 39 行
+
         _shellViewModel.MainSelectGame = string.IsNullOrEmpty(Properties.Settings.Default.LastSelectGame)
             ? resourceLoader.GetString("Shell_Main")
             : SelectedGame.GameName;

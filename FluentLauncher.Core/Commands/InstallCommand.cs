@@ -15,8 +15,11 @@ namespace FluentLauncher.Core.Commands
             try
             {
                 var response = await HttpClient.GetStringAsync(VersionManifestUrl);
-              var versionManifest = JsonSerializer.Deserialize(response, AppJsonSerializerContext.Default.VersionsJson);
-
+                var versionManifest =
+                    JsonSerializer.Deserialize(response, AppJsonSerializerContext.Default.VersionsJson);
+                // 把清单保存本地
+                await JsonConfigUtils.SaveToFileAsync(versionManifest,
+                    Path.Combine(AppContext.BaseDirectory, "downloadversion.json"));
                 return Result<VersionsJson>.Success(versionManifest);
             }
             catch (Exception ex)
@@ -25,7 +28,7 @@ namespace FluentLauncher.Core.Commands
             }
         }
 
-        public static async Task<Result<bool>> DownloadMinecraftVersionAsync(string versionId)
+        public static async Task<Result<bool>> DownloadMinecraftAsync(string versionId)
         {
             var result = await GetVersionManifestAsync();
             if (!result.IsSuccess)
@@ -56,5 +59,4 @@ namespace FluentLauncher.Core.Commands
             }
         }
     }
-
 }

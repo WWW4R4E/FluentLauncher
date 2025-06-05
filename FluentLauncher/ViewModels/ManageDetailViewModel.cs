@@ -1,24 +1,23 @@
 using FluentLauncher.Core.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using FluentLauncher.Core.Utils;
 
 namespace FluentLauncher.ViewModels
 {
     public partial class ManageDetailViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private string? _selectedCardType;
+        [ObservableProperty] private string? _selectedCardType;
 
-        [ObservableProperty]
-        private DataTemplate? _selectedTemplate;
+        [ObservableProperty] private DataTemplate? _selectedTemplate;
 
-        [ObservableProperty]
-        private ObservableCollection<object>? _selectedItems;
+        [ObservableProperty] private ObservableCollection<object>? _selectedItems;
 
         [ObservableProperty] private List<DataTemplate> _resources;
 
         // 按需从 Resources 获取模板
-        public void LoadData(string cardType)
+        public async Task LoadData(string cardType, string path)
         {
             SelectedCardType = cardType;
 
@@ -26,17 +25,18 @@ namespace FluentLauncher.ViewModels
             {
                 case "存档管理":
                     SelectedTemplate = Resources[0];
-                    SelectedItems = new ObservableCollection<object>(GetSavedGames());
+                    SelectedItems = new ObservableCollection<object>(GetSavedGames(path));
                     break;
 
                 case "模组管理":
                     SelectedTemplate = Resources[1];
-                    SelectedItems = new ObservableCollection<object>(GetMods());
+                    SelectedItems = new ObservableCollection<object>(GetMods(path));
                     break;
 
                 case "启动参数":
                     SelectedTemplate = Resources[2];
-                    SelectedItems = new ObservableCollection<object>(GetGameArguments());
+                    SelectedItems = new ObservableCollection<object>(await GetGameArgumentsAsync(path));
+
                     break;
 
                 default:
@@ -47,34 +47,66 @@ namespace FluentLauncher.ViewModels
         }
 
 
-        private ObservableCollection<GameSave> GetSavedGames()
+        private ObservableCollection<GameSave> GetSavedGames(string path)
         {
-            // 示例数据
-            return new ObservableCollection<GameSave>
+            var savePath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(path))!, "saves");
+
+            var saves = new ObservableCollection<GameSave>();
+
+            if (Directory.Exists(savePath))
             {
-                new GameSave { SaveName = "存档1", SavePath = "C:\\Saves\\Save1", SaveTime = Convert.ToDateTime("2023-10-01") },
-                new GameSave { SaveName = "存档2", SavePath = "C:\\Saves\\Save2", SaveTime = Convert.ToDateTime("2023-10-02") }
-            };
+                foreach (var dir in Directory.GetDirectories(savePath))
+                {
+                    var saveName = new DirectoryInfo(dir).Name;
+                    saves.Add(new GameSave { SaveName = saveName, SavePath = dir });
+                }
+            }
+
+            return saves;
         }
 
-        private ObservableCollection<Mod> GetMods()
+        private ObservableCollection<Mod> GetMods(string path)
         {
-            // 示例数据
-            return new ObservableCollection<Mod>
+            var mods = new ObservableCollection<Mod>();
+            var modpath = Path.Combine(Path.GetDirectoryName(path)!, "mods");
+            if (Directory.Exists(modpath))
             {
-                new() { ModName = "模组1", ModPath = "C:\\Mods\\Mod1", ModVersion = "1.0", ModType = "Core" },
-                new() { ModName = "模组2", ModPath = "C:\\Mods\\Mod2", ModVersion = "2.0", ModType = "Plugin" }
-            };
+                foreach (var file in Directory.GetFiles(modpath, "*.jar"))
+                {
+                    mods.Add(new Mod
+                    {
+                        ModName = Path.GetFileNameWithoutExtension(file),
+                        ModPath = file
+                    });
+                }
+
+
+                return mods;
+            }
+
+            return mods;
         }
 
-        private ObservableCollection<GameArgument> GetGameArguments()
+        private async Task<ObservableCollection<GameArgument>> GetGameArgumentsAsync(string path)
         {
-            // 示例数据
-            return new ObservableCollection<GameArgument>
+            var gameArguments = new ObservableCollection<GameArgument>();
+            try
             {
-                new() { FullScrean = true, javaPath = "C:\\Java\\jdk-17", memoryArgs = "-Xmx4G", GameSize= new Tuple<uint, uint>(900,300) },
-                new(){ FullScrean = false, javaPath = "C:\\Java\\jdk-11", memoryArgs = "-Xmx2G", GameSize = new Tuple<uint, uint>(900,300) }
-            };
+                var configModel = await JsonConfigUtils.LoadFromFile();
+                var gameArgument = configModel.GameConfig
+                    .FirstOrDefault(x => x.GamePath == path)?.GameArguments;
+
+                if (gameArgument != null)
+                {
+                    gameArguments.Add(gameArgument);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"加载游戏参数失败: {ex.Message}");
+            }
+
+            return gameArguments;
         }
     }
 }

@@ -13,72 +13,182 @@
 
         <!--  存档  -->
         <DataTemplate x:Key="GameSaveListViewTemplate" x:DataType="models:GameSave">
-            <StackPanel
+            <Border
                 Margin="0,4"
-                Padding="0,8"
-                VerticalAlignment="Stretch"
+                Padding="12"
                 Background="{StaticResource CardBackgroundFillColorDefault}"
-                CornerRadius="{StaticResource ProgressBarCornerRadius}"
-                Orientation="Horizontal">
-                <Rectangle
-                    Width="48"
-                    Height="48"
-                    Margin="16,0"
-                    VerticalAlignment="Center"
-                    Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-                <StackPanel Spacing="2">
-                    <TextBlock Text="{x:Bind SaveName}" />
-                    <TextBlock Text="{x:Bind SavePath}" />
-                    <TextBlock Text="{x:Bind SaveTime}" />
-                </StackPanel>
-            </StackPanel>
+                CornerRadius="{StaticResource ProgressBarCornerRadius}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="24"
+                        Glyph="&#xE70B;"/>
+                        
+                    <StackPanel Grid.Column="1" Spacing="4">
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{x:Bind SaveName}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind SavePath}"/>
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind SaveTime}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </DataTemplate>
 
         <!--  模组  -->
         <DataTemplate x:Key="ModListViewTemplate" x:DataType="models:Mod">
-            <StackPanel
+            <Border
                 Margin="0,4"
-                Padding="0,8"
-                VerticalAlignment="Stretch"
+                Padding="12"
                 Background="{StaticResource CardBackgroundFillColorDefault}"
-                CornerRadius="{StaticResource ProgressBarCornerRadius}"
-                Orientation="Horizontal">
-                <Rectangle
-                    Width="48"
-                    Height="48"
-                    Margin="16,0"
-                    VerticalAlignment="Center"
-                    Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-                <StackPanel Spacing="2">
-                    <TextBlock Text="{x:Bind ModName}" />
-                    <TextBlock Text="{x:Bind ModPath}" />
-                    <TextBlock Text="{x:Bind ModVersion}" />
-                    <TextBlock Text="{x:Bind ModType}" />
-                </StackPanel>
-            </StackPanel>
+                CornerRadius="{StaticResource ProgressBarCornerRadius}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="24"
+                        Glyph="&#xE74C;"/>
+                        
+                    <StackPanel Grid.Column="1" Spacing="4">
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{x:Bind ModName}"/>
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorSecondary}"
+                            Text="{x:Bind ModPath}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind ModVersion}"/>
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind ModType}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </DataTemplate>
 
         <!--  参数  -->
         <DataTemplate x:Key="GameArgumentListViewTemplate" x:DataType="models:GameArgument">
-            <StackPanel
-                Margin="0,4"
-                Padding="0,8"
-                VerticalAlignment="Stretch"
-                Background="{StaticResource CardBackgroundFillColorDefault}"
-                CornerRadius="{StaticResource ProgressBarCornerRadius}"
-                Orientation="Horizontal">
-                <Rectangle
-                    Width="48"
-                    Height="48"
-                    Margin="16,0"
-                    VerticalAlignment="Center"
-                    Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-                <StackPanel Spacing="2">
-                    <TextBlock Text="{x:Bind FullScrean}" />
-                    <TextBlock Text="{x:Bind javaPath}" />
-                    <TextBlock Text="{x:Bind memoryArgs}" />
-                    <TextBlock Text="{x:Bind GameSize}"/>
-                </StackPanel>
+            <StackPanel Spacing="8">
+                <!-- Java路径 -->
+                <Border
+                    Margin="0,4"
+                    Padding="12"
+                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                    CornerRadius="{StaticResource ProgressBarCornerRadius}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <FontIcon
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            FontSize="24"
+                            Glyph="&#xE756;"/>
+                            
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="Java路径"/>
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind javaPath}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 内存参数 -->
+                <Border
+                    Margin="0,4"
+                    Padding="12"
+                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                    CornerRadius="{StaticResource ProgressBarCornerRadius}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <FontIcon
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            FontSize="24"
+                            Glyph="&#xE756;"/>
+                            
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="内存设置"/>
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondary}"
+                                Text="{x:Bind memoryArgs}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 游戏设置 -->
+                <Border
+                    Margin="0,4"
+                    Padding="12"
+                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                    CornerRadius="{StaticResource ProgressBarCornerRadius}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <FontIcon
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            FontSize="24"
+                            Glyph="&#xE756;"/>
+                            
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="游戏设置"/>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondary}"
+                                    Text="{x:Bind FullScrean}"/>
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondary}"
+                                    Text="{x:Bind GameSize}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </StackPanel>
         </DataTemplate>
 
@@ -95,7 +205,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:SettingsCard Header="{x:Bind ViewModel.SelectedCardType}" IsClickEnabled="True">
+        <controls:SettingsCard Header="{x:Bind ViewModel.SelectedCardType, Mode=OneWay}" IsClickEnabled="True">
             <controls:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE8B7;" />
             </controls:SettingsCard.HeaderIcon>
@@ -106,8 +216,8 @@
             Text="{x:Bind ViewModel.SelectedCardType}" />
         <ListView
             Grid.Row="2"
-            ItemTemplate="{x:Bind ViewModel.SelectedTemplate}"
-            ItemsSource="{x:Bind ViewModel.SelectedItems}"
+            ItemTemplate="{x:Bind ViewModel.SelectedTemplate, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.SelectedItems, Mode=OneWay}"
             SelectionMode="None" />
     </Grid>
 </Page>

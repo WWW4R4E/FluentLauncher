@@ -35,18 +35,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Spacing="16">
-            <ComboBox DisplayMemberPath="Item1" SelectedIndex="0">
-                <ComboBoxItem>正式版</ComboBoxItem>
-                <ComboBoxItem>"快照版"</ComboBoxItem>
-                <ComboBoxItem>"远古版β"</ComboBoxItem>
-                <ComboBoxItem>"远古版α"</ComboBoxItem>
-            </ComboBox>
+            <ComboBox ItemsSource="{x:Bind ViewModel.Types}" 
+                      SelectedItem="{x:Bind ViewModel.SelectedType, Mode=TwoWay}"
+                      DisplayMemberPath=""/>
             <AutoSuggestBox PlaceholderText="Type a control name" QueryIcon="Find" />
         </StackPanel>
         <Grid Grid.Row="1" Margin="0,16">
             <ListView
                 ItemTemplate="{StaticResource DownloadListview}"
-                ItemsSource="{x:Bind ViewModel.DownloadList}"
+                ItemsSource="{x:Bind ViewModel.FilteredList, Mode=OneWay}"
                 SelectionMode="None" />
         </Grid>
     </Grid>
