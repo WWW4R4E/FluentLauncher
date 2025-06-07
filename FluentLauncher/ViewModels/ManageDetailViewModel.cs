@@ -1,8 +1,10 @@
 using FluentLauncher.Core.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentLauncher.Core.Utils;
+using Tomlyn;
 
 namespace FluentLauncher.ViewModels
 {
@@ -15,11 +17,13 @@ namespace FluentLauncher.ViewModels
         [ObservableProperty] private ObservableCollection<object>? _selectedItems;
 
         [ObservableProperty] private List<DataTemplate> _resources;
+        [ObservableProperty] private string? _gamepath;
 
         // 按需从 Resources 获取模板
         public async Task LoadData(string cardType, string path)
         {
             SelectedCardType = cardType;
+            Gamepath = path;
 
             switch (cardType)
             {
@@ -67,25 +71,28 @@ namespace FluentLauncher.ViewModels
 
         private ObservableCollection<Mod> GetMods(string path)
         {
-            var mods = new ObservableCollection<Mod>();
+            var mods= new ObservableCollection<Mod>();
             var modpath = Path.Combine(Path.GetDirectoryName(path)!, "mods");
             if (Directory.Exists(modpath))
             {
                 foreach (var file in Directory.GetFiles(modpath, "*.jar"))
                 {
-                    mods.Add(new Mod
+                    try
                     {
-                        ModName = Path.GetFileNameWithoutExtension(file),
-                        ModPath = file
-                    });
+                        mods.Add(ModManageCommand.GetModInfoFromJar(file));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        continue;
+                    }
                 }
-
-
                 return mods;
             }
 
             return mods;
         }
+
 
         private async Task<ObservableCollection<GameArgument>> GetGameArgumentsAsync(string path)
         {

@@ -15,8 +15,8 @@ public class ConfigModel
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         ".minecraft"
     );
-    [JsonPropertyName("jdkPathGroups")]
-    public List<JavaPath> JavaPathGroup { get; set; }
+
+    [JsonPropertyName("jdkPathGroups")] public List<JavaPath> JavaPathGroup { get; set; }
 }
 
 public class UserProfile
@@ -49,9 +49,15 @@ public class GameSave
 public class Mod
 {
     [JsonPropertyName("modName")] public string ModName { get; set; }
-    [JsonPropertyName("modVersion")] public string ModVersion { get; set; }
+    [JsonPropertyName("modVersion")] public string? ModVersion { get; set; }
+    [JsonPropertyName("modAuthor")] public string[]? ModAuthor { get; set; }
+    [JsonPropertyName("modDescription")] public string? ModDescription { get; set; }
     [JsonPropertyName("modPath")] public string ModPath { get; set; }
-    [JsonPropertyName("modType")] public string ModType { get; set; } // e.g., "Forge", "Fabric", etc.
+    [JsonPropertyName("modType")] public List<ModLoaderType> ModType { get; set; } = new();
+
+    [JsonIgnore]
+    [JsonPropertyName("isEnabled")]
+    public bool IsEnabled { get; set; }
 }
 
 public class GameArgument
@@ -61,9 +67,9 @@ public class GameArgument
     [JsonPropertyName("javaPath")] public string javaPath { get; set; } = "java";
     [JsonPropertyName("gameSize")] public Tuple<uint, uint> GameSize { get; set; } = new Tuple<uint, uint>(1280, 720);
 }
+
 public class JavaPath
 {
-
     [JsonPropertyName("path")] public string Path { get; set; }
     [JsonPropertyName("version")] public string Version { get; set; }
 }
@@ -208,3 +214,13 @@ public class AssetIndex
 }
 
 #endregion
+
+
+public enum ModLoaderType
+{
+    Forge = 1,
+    Fabric = 2,
+    NeoForge = 3,
+    Quilt = 4,
+    OptiFine = 5
+}
